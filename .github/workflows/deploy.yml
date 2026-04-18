@@ -4,6 +4,16 @@ on:
   push:
     branches:
       - main
+    paths:
+      - content/**
+      - metadata/**
+      - system/**
+      - site/astro/**
+      - package.json
+      - package-lock.json
+      - bb.edn
+      - shadow-cljs.edn
+      - .github/workflows/deploy.yml
   workflow_dispatch:
 
 concurrency:
