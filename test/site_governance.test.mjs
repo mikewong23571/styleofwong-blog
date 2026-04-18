@@ -13,6 +13,7 @@ const runtimeReachabilityAllowlistFile = path.join(
   "governance",
   "runtime-reachability-allowlist.json"
 );
+const shadowConfig = fs.readFileSync(path.join(repoRoot, "shadow-cljs.edn"), "utf8");
 
 const css = fs.readFileSync(
   path.join(repoRoot, "site", "astro", "src", "styles", "site.css"),
@@ -180,6 +181,12 @@ test("post layout reserves a dedicated metadata header above prose", () => {
   assert.match(postTemplate, /<header class="post-header stack-md">/);
   assert.match(postTemplate, /class="meta-eyebrow"/);
   assert.match(postTemplate, /class="post-taxonomy cluster"/);
+});
+
+test("repository build config does not keep experimental spike entrypoints alive", () => {
+  assert.doesNotMatch(shadowConfig, /:spike\b/);
+  assert.doesNotMatch(shadowConfig, /spike\.build\/main/);
+  assert.equal(fs.existsSync(path.join(repoRoot, "src", "spike")), false);
 });
 
 test("runtime reachability allowlist exists and only names real runtime files", () => {
