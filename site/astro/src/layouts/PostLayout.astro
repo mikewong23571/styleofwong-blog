@@ -1,19 +1,29 @@
 ---
+import BaseLayout from "./BaseLayout.astro";
+
 const { frontmatter } = Astro.props;
+const publishedAt = frontmatter.published_at ?? frontmatter.created_at;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{frontmatter.title}</title>
-  </head>
-  <body>
-    <main>
-      <article>
+<BaseLayout title={frontmatter.title} description={frontmatter.summary}>
+  <main class="post-shell panel">
+    <div class="post-nav">
+      <a class="home-link" href="/">Back to index</a>
+    </div>
+    <article class="post prose">
+      <header class="post-header stack-md">
+        {publishedAt && <p class="meta-eyebrow">Published {publishedAt}</p>}
         <h1>{frontmatter.title}</h1>
-        <slot />
-      </article>
-    </main>
-  </body>
-</html>
+        {frontmatter.summary && <p class="post-summary">{frontmatter.summary}</p>}
+        {frontmatter.tags?.length > 0 && (
+          <ul class="post-taxonomy cluster">
+            {frontmatter.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        )}
+      </header>
+      <slot />
+    </article>
+  </main>
+</BaseLayout>

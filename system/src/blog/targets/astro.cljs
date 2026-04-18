@@ -22,7 +22,7 @@
   (.writeFileSync fs
                   file
                   (js/JSON.stringify
-                   (clj->js (mapv #(select-keys % [:slug :url :summary :tags :title]) (:pages publish-ir)))
+                   (clj->js (mapv #(select-keys % [:slug :url :summary :tags :title :created_at :published_at]) (:pages publish-ir)))
                    nil
                    2)
                   "utf8"))
@@ -31,23 +31,40 @@
   (ensure-parent! to)
   (.copyFileSync fs from to))
 
+(defn json-literal [value]
+  (js/JSON.stringify (clj->js value)))
+
+(defn yaml-line [k v]
+  (str k ": " (json-literal v)))
+
+(defn page-frontmatter [page]
+  (str/join
+   "\n"
+   (concat
+    ["---"
+     (yaml-line "layout" "../../layouts/PostLayout.astro")
+     (yaml-line "title" (:title page))]
+    (when-let [summary (:summary page)]
+      [(yaml-line "summary" summary)])
+    (when-let [created-at (:created_at page)]
+      [(yaml-line "created_at" created-at)])
+    (when-let [published-at (:published_at page)]
+      [(yaml-line "published_at" published-at)])
+    (when (seq (:tags page))
+      [(yaml-line "tags" (:tags page))])
+    ["---" ""])))
+
 (defn md->managed-mdx [slug markdown]
-  (-> markdown
-      (str/replace #"(?s)```mermaid\n(.*?)```"
-                   (fn [[_ code]]
-                     (str "\n<Mermaid code={" (pr-str (str/trim code)) "} />\n")))
-      (str/replace #"\!\[([^\]]*)\]\(\./([^)]+)\)"
-                   (fn [[_ alt filename]]
-                     (str "![" alt "](/generated-assets/" slug "/" filename ")")))))
+  (str/replace markdown
+               #"\!\[([^\]]*)\]\(\./([^)]+)\)"
+               (fn [[_ alt filename]]
+                 (str "![" alt "](/generated-assets/" slug "/" filename ")"))))
 
 (defn emit-post-page! [file page]
   (ensure-parent! file)
   (.writeFileSync fs
                   file
-                  (str "---\n"
-                       "layout: ../../layouts/PostLayout.astro\n"
-                       "title: " (:title page) "\n"
-                       "---\n\n"
+                  (str (page-frontmatter page)
                        "import Mermaid from \"../../components/Mermaid.astro\";\n\n"
                        (md->managed-mdx (:slug page) (:body page)))
                   "utf8"))

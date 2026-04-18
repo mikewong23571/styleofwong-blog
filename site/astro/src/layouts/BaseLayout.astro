@@ -1,0 +1,24 @@
+---
+import "../styles/site.css";
+import "katex/dist/katex.min.css";
+
+const {
+  title,
+  description = "Content-first publishing runtime managed by ClojureScript."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <div class="page-shell">
+      <slot />
+    </div>
+  </body>
+</html>

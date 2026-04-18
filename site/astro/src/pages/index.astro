@@ -1,21 +1,116 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 import posts from "../data/posts.json";
+
+const publishedAt = (post) => post.published_at ?? post.created_at ?? "";
+const sortedPosts = [...posts].sort((left, right) =>
+  publishedAt(right).localeCompare(publishedAt(left))
+);
+const postsByYear = Object.entries(
+  sortedPosts.reduce((groups, post) => {
+    const year = publishedAt(post).slice(0, 4) || "Undated";
+    groups[year] ??= [];
+    groups[year].push(post);
+    return groups;
+  }, {})
+);
+const tagCounts = Object.entries(
+  sortedPosts.reduce((counts, post) => {
+    for (const tag of post.tags) {
+      counts[tag] = (counts[tag] ?? 0) + 1;
+    }
+    return counts;
+  }, {})
+).sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]));
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Content-First Blog</title>
-  </head>
-  <body>
-    <main>
+<BaseLayout
+  title="Content-First Blog"
+  description="A content-first blog where ClojureScript governs the publishing pipeline and Astro stays a rendering runtime."
+>
+  <main class="home-layout">
+    <section class="home-hero panel stack-lg">
+      <p class="meta-eyebrow">Content-first publishing runtime</p>
       <h1>Content-First Blog</h1>
-      <ul>
-        {posts.map((post) => (
-          <li><a href={post.url}>{post.slug}</a></li>
+      <p class="hero-copy">
+        Markdown remains the source of truth. ClojureScript governs metadata and
+        publishing rules. Astro only renders the published view.
+      </p>
+      <dl class="hero-stats">
+        <div>
+          <dt>Posts</dt>
+          <dd>{sortedPosts.length}</dd>
+        </div>
+        <div>
+          <dt>Years</dt>
+          <dd>{postsByYear.length}</dd>
+        </div>
+        <div>
+          <dt>Tags</dt>
+          <dd>{tagCounts.length}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="home-panel home-panel--primary panel">
+      <div class="section-heading stack-sm">
+        <h2>Latest writing</h2>
+        <p>Reverse-chronological publishing with tags and summaries generated from the managed metadata layer.</p>
+      </div>
+      <ul class="post-list">
+        {sortedPosts.map((post) => (
+          <li class="post-card stack-md">
+            <div class="post-card-meta">
+              <span>{publishedAt(post)}</span>
+            </div>
+            <h3><a href={post.url}>{post.title}</a></h3>
+            <p class="post-summary">{post.summary}</p>
+            <ul class="post-taxonomy cluster">
+              {post.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
-    </main>
-  </body>
-</html>
+    </section>
+
+    <aside class="home-sidebar">
+      <section class="home-panel home-panel--archive panel">
+        <div class="section-heading stack-sm">
+          <h2>Archive</h2>
+          <p>Time remains a first-class dimension in the published surface.</p>
+        </div>
+        <div class="archive-groups">
+          {postsByYear.map(([year, yearPosts]) => (
+            <section class="archive-group stack-sm">
+              <h3>{year}</h3>
+              <ul>
+                {yearPosts.map((post) => (
+                  <li>
+                    <a href={post.url}>{post.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section class="home-panel home-panel--taxonomy panel">
+        <div class="section-heading stack-sm">
+          <h2>Tags</h2>
+          <p>Metadata remains visible without leaking Astro-specific concerns into authoring.</p>
+        </div>
+        <ul class="tag-cloud cluster">
+          {tagCounts.map(([tag, count]) => (
+            <li>
+              <span>{tag}</span>
+              <strong>{count}</strong>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </aside>
+  </main>
+</BaseLayout>

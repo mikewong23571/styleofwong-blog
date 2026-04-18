@@ -1,10 +1,13 @@
 .DS_Store
 .clj-kondo/
 .lsp/
+wrangler.toml
 
 # Root tool output
 node_modules/
 .shadow-cljs/
+site/astro/.astro/
+site/astro/dist/
 
 # Generated IR and reports
 system/generated/

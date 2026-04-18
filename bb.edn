@@ -1,0 +1,50 @@
+{:min-bb-version "1.12.217"
+ :tasks
+ {test
+  {:doc "Run the full repository test suite."
+   :task (shell "npm test")}
+
+  build-system
+  {:doc "Compile the ClojureScript control plane and emit managed Astro artifacts."
+   :task (shell "npm run build:system")}
+
+  build-site
+  {:doc "Build the Astro site after regenerating managed artifacts."
+   :task (shell "npm run build:site")}
+
+  build
+  {:doc "Run tests and build the full site."
+   :task (shell "npm run build")}
+
+  dev
+  {:doc "Regenerate managed artifacts and start Astro dev server on all interfaces."
+   :task (do
+           (run 'build-system)
+           (shell "npm --prefix site/astro run dev -- --host 0.0.0.0"))}
+
+  preview
+  {:doc "Build and preview the production site locally."
+   :task (do
+           (run 'build-site)
+           (shell "npm --prefix site/astro run preview -- --host 0.0.0.0"))}
+
+  deploy
+  {:doc "Run tests, build, and deploy the current worktree to Cloudflare Pages."
+   :requires ([babashka.process :refer [shell]]
+              [clojure.string :as str])
+   :task (let [project (or (System/getenv "CF_PAGES_PROJECT") "styleofwong-blog")
+               branch (or (System/getenv "CF_PAGES_BRANCH") "main")
+               commit-hash (str/trim (:out (shell {:out :string} "git rev-parse HEAD")))
+               commit-message (or (System/getenv "CF_PAGES_COMMIT_MESSAGE")
+                                  (str/trim (:out (shell {:out :string} "git log -1 --pretty=%s"))))
+               dirty-exit (:exit (shell {:continue true} "git diff --quiet --ignore-submodules HEAD --"))
+               dirty? (not= 0 dirty-exit)
+               cmd (cond-> ["npx" "--yes" "wrangler" "pages" "deploy"
+                            "site/astro/dist"
+                            "--project-name" project
+                            "--branch" branch
+                            "--commit-hash" commit-hash
+                            "--commit-message" commit-message]
+                     dirty? (conj "--commit-dirty=true"))]
+           (run 'build)
+           (apply shell cmd))}}}

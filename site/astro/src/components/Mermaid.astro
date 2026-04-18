@@ -2,9 +2,22 @@
 const { code } = Astro.props;
 ---
 
-<pre class="mermaid">{code}</pre>
+<div class="mermaid-block">
+  <pre class="mermaid">{code}</pre>
+</div>
+
 <script>
   import mermaid from "mermaid";
 
-  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+  if (!window["__contentFirstMermaidInitialized"]) {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "neutral"
+    });
+    window["__contentFirstMermaidInitialized"] = true;
+  }
+
+  mermaid.run({
+    querySelector: ".mermaid"
+  });
 </script>
