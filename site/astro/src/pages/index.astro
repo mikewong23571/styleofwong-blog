@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SocialIcon from "../components/SocialIcon.astro";
 import posts from "../data/posts.json";
 import runtime from "../../managed/runtime-config.json";
 
@@ -38,7 +39,9 @@ const hero = runtime.site.hero;
       <ul class="hero-links cluster" aria-label="Social links">
         {hero.links.map((link) => (
           <li>
-            <a href={link.href}>{link.label}</a>
+            <a href={link.href} aria-label={link.label} title={link.label}>
+              <SocialIcon label={link.label} />
+            </a>
           </li>
         ))}
       </ul>

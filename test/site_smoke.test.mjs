@@ -23,7 +23,10 @@ test("astro build emits stylesheet links for index and post pages", () => {
   assert.match(postHtml, /<link[^>]+href="\/_astro\/[^"]+\.css"/);
   assert.match(indexHtml, /Mike Wong/);
   assert.match(indexHtml, /Notes by Mike Wong/);
-  assert.match(indexHtml, />X</);
+  assert.match(indexHtml, /aria-label="X"/);
+  assert.match(indexHtml, /aria-label="GitHub"/);
+  assert.match(indexHtml, /aria-label="Email"/);
+  assert.match(indexHtml, /class="[^"]*\bhero-link__icon\b[^"]*"/);
   assert.match(indexHtml, /https:\/\/x\.com\/0xMikeWong/);
   assert.match(indexHtml, /https:\/\/github\.com\/mikewong23571/);
   assert.match(indexHtml, /mailto:mikewong23571@gmail\.com/);

@@ -1,0 +1,14 @@
+---
+const { label } = Astro.props;
+
+const iconClassByLabel = {
+  X: "fa-brands fa-x-twitter",
+  GitHub: "fa-brands fa-github",
+  Email: "fa-solid fa-envelope"
+};
+
+const iconClass = iconClassByLabel[label] ?? "fa-solid fa-link";
+---
+
+<i class:list={["hero-link__icon", iconClass]} aria-hidden="true"></i>
+<span class="sr-only">{label}</span>
