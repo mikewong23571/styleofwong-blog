@@ -10,10 +10,12 @@
     {:posts
      (mapv (fn [post]
              (let [{:keys [frontmatter body]} (frontmatter/parse-frontmatter
-                                          (.readFileSync fs (:markdown-path post) "utf8"))]
+                                              (.readFileSync fs (:markdown-path post) "utf8"))
+                   metadata-entry (metadata/entry metadata-map (:slug post))]
                (merge post
                       frontmatter
                       {:body body}
                       {:url (str "/posts/" (:slug post) "/")}
+                      {:metadata-entry metadata-entry}
                       (metadata/effective-entry metadata-map (:slug post)))))
            posts)}))

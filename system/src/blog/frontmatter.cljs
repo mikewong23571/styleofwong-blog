@@ -8,5 +8,6 @@
                  (into {}))]
     {:frontmatter {:title (get kvs "title")
                    :created_at (get kvs "created_at")
-                   :status (get kvs "status")}
+                   :status (get kvs "status")
+                   :published_at (get kvs "published_at")}
      :body body}))

@@ -3,7 +3,7 @@
             [blog.governance.rules :as rules]))
 
 (defn run-governance [publish-ir policy]
-  (let [errors (rules/unknown-tag-errors publish-ir policy)
+  (let [errors (rules/all-errors publish-ir policy)
         report {:errors errors
                 :warnings []
                 :ok? (empty? errors)}]

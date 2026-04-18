@@ -9,3 +9,6 @@
 (defn effective-entry [metadata slug]
   (let [entry (get metadata slug)]
     (merge (:llm entry) (:overrides entry))))
+
+(defn entry [metadata slug]
+  (get metadata slug))

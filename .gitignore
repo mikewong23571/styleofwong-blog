@@ -1,4 +1,6 @@
 .DS_Store
+.clj-kondo/
+.lsp/
 
 # Root tool output
 node_modules/
