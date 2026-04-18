@@ -1,4 +1,14 @@
 {
   "name": "content-first-blog-astro-runtime",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "astro build"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "5.0.3",
+    "astro": "6.1.8",
+    "mermaid": "^11.12.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  }
 }

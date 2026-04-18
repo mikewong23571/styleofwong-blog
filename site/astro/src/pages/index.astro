@@ -1,0 +1,21 @@
+---
+import posts from "../data/posts.json";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Content-First Blog</title>
+  </head>
+  <body>
+    <main>
+      <h1>Content-First Blog</h1>
+      <ul>
+        {posts.map((post) => (
+          <li><a href={post.url}>{post.slug}</a></li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>

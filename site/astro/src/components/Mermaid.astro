@@ -1,0 +1,10 @@
+---
+const { code } = Astro.props;
+---
+
+<pre class="mermaid">{code}</pre>
+<script>
+  import mermaid from "mermaid";
+
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+</script>
