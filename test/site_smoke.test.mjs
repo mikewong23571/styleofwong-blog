@@ -18,9 +18,12 @@ test("astro build emits stylesheet links for index and post pages", () => {
     path.join(astroRoot, "dist", "posts", "hello-world", "index.html"),
     "utf8"
   );
+  const faviconFile = path.join(astroRoot, "dist", "favicon.ico");
 
   assert.match(indexHtml, /<link[^>]+href="\/_astro\/[^"]+\.css"/);
   assert.match(postHtml, /<link[^>]+href="\/_astro\/[^"]+\.css"/);
+  assert.match(indexHtml, /<link[^>]+rel="icon"[^>]+href="\/favicon\.ico"/);
+  assert.equal(fs.existsSync(faviconFile), true);
   assert.match(indexHtml, /Mike Wong/);
   assert.match(indexHtml, /Notes by Mike Wong/);
   assert.match(indexHtml, /aria-label="X"/);
