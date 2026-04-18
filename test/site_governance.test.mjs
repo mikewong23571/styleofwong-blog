@@ -171,6 +171,13 @@ test("post taxonomy chips use centered inline-flex alignment", () => {
   );
 });
 
+test("hero social icons declare explicit icon bounds inside their controls", () => {
+  assert.match(
+    css,
+    /\.hero-link__icon\s*\{[\s\S]*width:\s*[0-9.]+rem;[\s\S]*height:\s*[0-9.]+rem;/
+  );
+});
+
 test("home page keeps archive and tag dimensions in first-class sections", () => {
   assert.match(indexTemplate, /<section class="[^"]*\bhome-panel\b[^"]*\bhome-panel--primary\b[^"]*">/);
   assert.match(indexTemplate, /<section class="[^"]*\bhome-panel\b[^"]*\bhome-panel--archive\b[^"]*">/);
