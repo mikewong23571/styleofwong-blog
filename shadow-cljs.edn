@@ -1,0 +1,7 @@
+{:source-paths ["src"]
+ :builds
+ {:spike
+  {:target :node-script
+   :main spike.build/main
+   :output-to ".shadow-cljs/builds/spike/release/cli.cjs"
+   :compiler-options {:output-feature-set :es2020}}}}

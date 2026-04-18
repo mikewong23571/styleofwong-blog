@@ -1,0 +1,74 @@
+---
+const { frontmatter } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{frontmatter.title}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4efe6;
+        --ink: #1e2933;
+        --muted: #6a7480;
+        --card: #fffdf9;
+        --border: #d8cdbb;
+      }
+      body {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        background: radial-gradient(circle at top, #fffaf2, var(--bg));
+        color: var(--ink);
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 48px 20px 96px;
+      }
+      article {
+        background: color-mix(in srgb, var(--card) 92%, white);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 18px 60px rgba(47, 72, 88, 0.08);
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+        margin: 24px auto;
+      }
+      .tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+      .tags span {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article>
+        <h1>{frontmatter.title}</h1>
+        <div class="meta">{frontmatter.created_at}</div>
+        <slot />
+        <div class="tags">
+          {frontmatter.tags?.map((tag) => <span>{tag}</span>)}
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+---
+import posts from "../data/posts.json";
+import site from "../data/site.json";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{site.site.title}</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #faf5ea 0%, #f2ece1 100%);
+        color: #22313d;
+      }
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        gap: 16px;
+      }
+      li {
+        background: rgba(255, 252, 247, 0.9);
+        border: 1px solid #d7cfbf;
+        border-radius: 18px;
+        padding: 20px;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .summary {
+        color: #5d6872;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>Theme: {site.site.theme}</p>
+      <h1>{site.site.title}</h1>
+      <ul>
+        {posts.map((post) => (
+          <li>
+            <a href={post.url}>
+              <h2>{post.title}</h2>
+              <p class="summary">{post.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>

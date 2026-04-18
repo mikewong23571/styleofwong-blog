@@ -1,0 +1,18 @@
+.DS_Store
+
+# Root tool output
+node_modules/
+.shadow-cljs/
+
+# Generated IR and reports
+system/generated/
+system/reports/
+
+# Astro spike runtime output
+spikes/astro-adapter/site/.astro/
+spikes/astro-adapter/site/dist/
+spikes/astro-adapter/site/node_modules/
+spikes/astro-adapter/site/managed/
+spikes/astro-adapter/site/src/data/
+spikes/astro-adapter/site/src/pages/posts/
+spikes/astro-adapter/site/public/generated-assets/

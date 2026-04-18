@@ -1,0 +1,11 @@
+{:site {:title "Content-First Blog Spike"
+        :base-url "https://example.com"
+        :theme :paper}
+ :astro {:version "6.1.8"
+         :features {:math true
+                    :mermaid true
+                    :svg true}
+         :markdown {:emit-mdx true}}
+ :content {:source-root "spikes/content-model/source"
+           :metadata-root "spikes/content-model/metadata"}
+ :publish {:astro-root "spikes/astro-adapter/site"}}

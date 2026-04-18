@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120">
+  <rect x="10" y="10" width="300" height="100" rx="18" fill="#f6f1e8" stroke="#2f4858" stroke-width="4"/>
+  <path d="M70 60h180" stroke="#2f4858" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="36" y="66" fill="#2f4858" font-family="Georgia, serif" font-size="18">Content</text>
+  <text x="210" y="66" fill="#2f4858" font-family="Georgia, serif" font-size="18">Site</text>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2f4858"/>
+    </marker>
+  </defs>
+</svg>
