@@ -4,3 +4,4 @@ dist/
 managed/runtime-config.json
 src/data/posts.json
 src/pages/posts/
+public/generated-assets/

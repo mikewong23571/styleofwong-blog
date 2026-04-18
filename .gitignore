@@ -6,7 +6,8 @@ node_modules/
 
 # Generated IR and reports
 system/generated/
-system/reports/
+system/reports/*
+!system/reports/.gitkeep
 
 # Astro spike runtime output
 spikes/astro-adapter/site/.astro/

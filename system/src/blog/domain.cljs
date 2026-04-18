@@ -9,10 +9,11 @@
         metadata-map (metadata/load-metadata metadata-path)]
     {:posts
      (mapv (fn [post]
-             (let [{:keys [frontmatter]} (frontmatter/parse-frontmatter
+             (let [{:keys [frontmatter body]} (frontmatter/parse-frontmatter
                                           (.readFileSync fs (:markdown-path post) "utf8"))]
                (merge post
                       frontmatter
+                      {:body body}
                       {:url (str "/posts/" (:slug post) "/")}
                       (metadata/effective-entry metadata-map (:slug post)))))
            posts)}))
