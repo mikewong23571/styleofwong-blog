@@ -1,0 +1,5 @@
+{"hello-world"
+ {:llm {:tags ["markdown" "math"]
+        :summary "Temporary machine summary."}
+  :overrides {:tags ["clojurescript" "astro" "content-system"]
+              :summary "A small spike proving content-first Markdown can compile into a managed Astro runtime."}}}
