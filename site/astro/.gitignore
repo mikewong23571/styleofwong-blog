@@ -1,3 +1,6 @@
 node_modules/
 .astro/
 dist/
+managed/runtime-config.json
+src/data/posts.json
+src/pages/posts/
