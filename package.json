@@ -1,19 +1,11 @@
 {
-  "name": "content-first-blog-spikes",
+  "name": "content-first-blog",
   "private": true,
-  "type": "module",
   "scripts": {
-    "spike:build-ir": "npx shadow-cljs compile spike",
-    "spike:run-ir": "node .shadow-cljs/builds/spike/release/cli.cjs",
-    "spike:prepare-site": "npm run spike:build-ir && npm run spike:run-ir",
-    "spike:build-site": "npm run spike:prepare-site && astro build --root spikes/astro-adapter/site"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "5.0.3",
-    "astro": "6.1.8",
-    "mermaid": "^11.12.0",
-    "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "test": "npx shadow-cljs compile test && node .shadow-cljs/builds/test/test-runner.cjs",
+    "build:system": "npx shadow-cljs compile build && node .shadow-cljs/builds/build/main.cjs",
+    "build:site": "npm run build:system && npm --prefix site/astro run build",
+    "build": "npm run test && npm run build:site"
   },
   "devDependencies": {
     "shadow-cljs": "3.4.4"

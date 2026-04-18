@@ -1,7 +1,15 @@
-{:source-paths ["src"]
+{:source-paths ["src" "system/src" "test"]
  :builds
  {:spike
   {:target :node-script
    :main spike.build/main
    :output-to ".shadow-cljs/builds/spike/release/cli.cjs"
-   :compiler-options {:output-feature-set :es2020}}}}
+   :compiler-options {:output-feature-set :es2020}}
+  :build
+  {:target :node-script
+   :main blog.main/main
+   :output-to ".shadow-cljs/builds/build/main.cjs"}
+  :test
+  {:target :node-script
+   :main blog.test-runner/main
+   :output-to ".shadow-cljs/builds/test/test-runner.cjs"}}}
