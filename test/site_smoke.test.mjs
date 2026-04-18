@@ -19,11 +19,17 @@ test("astro build emits stylesheet links for index and post pages", () => {
     "utf8"
   );
   const faviconFile = path.join(astroRoot, "dist", "favicon.ico");
+  const robotsFile = path.join(astroRoot, "dist", "robots.txt");
+  const astroDistRoot = path.join(astroRoot, "dist", "_astro");
+  const astrosDistFiles = fs.readdirSync(astroDistRoot);
 
   assert.match(indexHtml, /<link[^>]+href="\/_astro\/[^"]+\.css"/);
   assert.match(postHtml, /<link[^>]+href="\/_astro\/[^"]+\.css"/);
   assert.match(indexHtml, /<link[^>]+rel="icon"[^>]+href="\/favicon\.ico"/);
   assert.equal(fs.existsSync(faviconFile), true);
+  assert.equal(fs.existsSync(robotsFile), true);
+  assert.match(fs.readFileSync(robotsFile, "utf8"), /User-agent:\s*\*/);
+  assert.match(fs.readFileSync(robotsFile, "utf8"), /Allow:\s*\//);
   assert.match(indexHtml, /Mike Wong/);
   assert.match(indexHtml, /Notes by Mike Wong/);
   assert.match(indexHtml, /aria-label="X"/);
@@ -32,7 +38,8 @@ test("astro build emits stylesheet links for index and post pages", () => {
   assert.match(indexHtml, /class="[^"]*\bhero-link__icon\b[^"]*"/);
   assert.match(indexHtml, /https:\/\/x\.com\/0xMikeWong/);
   assert.match(indexHtml, /https:\/\/github\.com\/mikewong23571/);
-  assert.match(indexHtml, /mailto:mikewong23571@gmail\.com/);
+  assert.match(indexHtml, /https:\/\/mail\.google\.com\/mail\/\?view=cm&#38;fs=1&#38;to=mikewong23571@gmail\.com/);
+  assert.ok(astrosDistFiles.every((file) => !/^fa-(brands|solid)-.*\.woff2$/.test(file)));
   assert.match(indexHtml, /Archive/);
   assert.match(indexHtml, /Tags/);
   assert.match(postHtml, /<pre class="mermaid">/);

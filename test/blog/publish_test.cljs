@@ -10,5 +10,7 @@
            (get-in result [:site :hero :links 0 :href])))
     (is (= "https://github.com/mikewong23571"
            (get-in result [:site :hero :links 1 :href])))
+    (is (= "https://mail.google.com/mail/?view=cm&fs=1&to=mikewong23571@gmail.com"
+           (get-in result [:site :hero :links 2 :href])))
     (is (= "/posts/hello-world/" (get-in result [:pages 0 :url])))
     (is (= true (get-in result [:runtime :features :mermaid])))))
