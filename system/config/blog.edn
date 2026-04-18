@@ -4,6 +4,16 @@
                     :features {:math true
                                :mermaid true
                                :svg true}}}
- :site {:title "Content-First Blog"
+ :site {:title "Mike Wong"
         :base-url "https://example.com"
-        :theme :paper}}
+        :theme :paper
+        :description "Notes, essays, and ongoing work by Mike Wong."
+        :hero {:eyebrow "Mike Wong"
+               :headline "Notes by Mike Wong"
+               :copy "Essays, notes, and ongoing work collected in one place. The site stays quiet and readable so the writing remains the focus."
+               :links [{:label "X"
+                        :href "https://x.com/0xMikeWong"}
+                       {:label "GitHub"
+                        :href "https://github.com/mikewong23571"}
+                       {:label "Email"
+                        :href "mailto:mikewong23571@gmail.com"}]}}}

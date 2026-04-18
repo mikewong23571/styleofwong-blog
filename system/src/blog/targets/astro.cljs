@@ -12,7 +12,7 @@
                   file
                   (js/JSON.stringify
                    (clj->js {:astro (:runtime publish-ir)
-                             :site {:theme "paper"}})
+                             :site (:site publish-ir)})
                    nil
                    2)
                   "utf8"))

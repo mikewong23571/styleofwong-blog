@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import posts from "../data/posts.json";
+import runtime from "../../managed/runtime-config.json";
 
 const publishedAt = (post) => post.published_at ?? post.created_at ?? "";
 const sortedPosts = [...posts].sort((left, right) =>
@@ -22,20 +23,25 @@ const tagCounts = Object.entries(
     return counts;
   }, {})
 ).sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]));
+const hero = runtime.site.hero;
 ---
 
 <BaseLayout
-  title="Content-First Blog"
-  description="A content-first blog where ClojureScript governs the publishing pipeline and Astro stays a rendering runtime."
+  title={runtime.site.title}
+  description={runtime.site.description}
 >
   <main class="home-layout">
     <section class="home-hero panel stack-lg">
-      <p class="meta-eyebrow">Content-first publishing runtime</p>
-      <h1>Content-First Blog</h1>
-      <p class="hero-copy">
-        Markdown remains the source of truth. ClojureScript governs metadata and
-        publishing rules. Astro only renders the published view.
-      </p>
+      <p class="meta-eyebrow">{hero.eyebrow}</p>
+      <h1>{hero.headline}</h1>
+      <p class="hero-copy">{hero.copy}</p>
+      <ul class="hero-links cluster" aria-label="Social links">
+        {hero.links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
       <dl class="hero-stats">
         <div>
           <dt>Posts</dt>
@@ -55,7 +61,7 @@ const tagCounts = Object.entries(
     <section class="home-panel home-panel--primary panel">
       <div class="section-heading stack-sm">
         <h2>Latest writing</h2>
-        <p>Reverse-chronological publishing with tags and summaries generated from the managed metadata layer.</p>
+        <p>Recent posts, working notes, and essays in reverse chronological order.</p>
       </div>
       <ul class="post-list">
         {sortedPosts.map((post) => (
@@ -79,7 +85,7 @@ const tagCounts = Object.entries(
       <section class="home-panel home-panel--archive panel">
         <div class="section-heading stack-sm">
           <h2>Archive</h2>
-          <p>Time remains a first-class dimension in the published surface.</p>
+          <p>Browse writing over time by year.</p>
         </div>
         <div class="archive-groups">
           {postsByYear.map(([year, yearPosts]) => (
@@ -100,7 +106,7 @@ const tagCounts = Object.entries(
       <section class="home-panel home-panel--taxonomy panel">
         <div class="section-heading stack-sm">
           <h2>Tags</h2>
-          <p>Metadata remains visible without leaking Astro-specific concerns into authoring.</p>
+          <p>Browse recurring topics without adding maintenance overhead to writing.</p>
         </div>
         <ul class="tag-cloud cluster">
           {tagCounts.map(([tag, count]) => (

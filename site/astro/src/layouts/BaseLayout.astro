@@ -1,10 +1,11 @@
 ---
 import "../styles/site.css";
 import "katex/dist/katex.min.css";
+import runtime from "../../managed/runtime-config.json";
 
 const {
   title,
-  description = "Content-first publishing runtime managed by ClojureScript."
+  description = runtime.site.description
 } = Astro.props;
 ---
 
