@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test": "npx shadow-cljs compile test && node .shadow-cljs/builds/test/test-runner.cjs && npm run test:site",
-    "test:site": "npm run build:system && node --test --test-concurrency=1 test/site_governance.test.mjs test/site_smoke.test.mjs",
+    "test:site": "npm run build:system && node --test --test-concurrency=1 test/dev_watch.test.mjs test/site_governance.test.mjs test/site_smoke.test.mjs",
     "build:system": "npx shadow-cljs compile build && node .shadow-cljs/builds/build/main.cjs",
     "build:site": "npm run build:system && npm --prefix site/astro run build",
     "build": "npm run test && npm run build:site"

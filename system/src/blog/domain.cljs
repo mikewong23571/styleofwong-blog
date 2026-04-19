@@ -4,8 +4,8 @@
             [blog.metadata :as metadata]
             [blog.source :as source]))
 
-(defn build-domain-ir [_config-path _content-root metadata-path]
-  (let [posts (source/discover-posts "content/posts")
+(defn build-domain-ir [_config-path content-root metadata-path]
+  (let [posts (source/discover-posts (str content-root "/posts"))
         metadata-map (metadata/load-metadata metadata-path)]
     {:posts
      (mapv (fn [post]

@@ -37,12 +37,18 @@ The intended workflow is boring by design:
 
 ```sh
 bb dev
+bb dev-watch
 bb preview
 bb test
 bb deploy
 ```
 
 Equivalent npm entry points also exist, but `bb` is the intended top-level interface for routine maintenance.
+
+For local authoring, use:
+
+- `bb dev` for a one-shot managed artifact rebuild followed by Astro dev mode.
+- `bb dev-watch` for the continuous loop: watch `content/`, `metadata/`, and `system/config/`, rerun the CLJS pipeline on change, and let Astro refresh from regenerated artifacts.
 
 ## Deployment
 
