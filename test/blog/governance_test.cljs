@@ -43,6 +43,29 @@
              :duplicate-url}
            (into #{} (map :rule (:errors report)))))))
 
+(deftest rejects-duplicate-slugs-separately-from-generic-url-collisions
+  (let [publish-ir {:pages [{:slug "hello-world"
+                             :title "First"
+                             :created_at "2026-04-19"
+                             :status "published"
+                             :tags ["clojurescript"]
+                             :url "/posts/hello-world/"
+                             :published_at "2026-04-19"
+                             :metadata-entry {:overrides {:tags ["clojurescript"]
+                                                          :summary "First"}}}
+                            {:slug "hello-world"
+                             :title "Second"
+                             :created_at "2027-04-19"
+                             :status "published"
+                             :tags ["clojurescript"]
+                             :url "/posts/hello-world/"
+                             :published_at "2027-04-19"
+                             :metadata-entry {:overrides {:tags ["clojurescript"]
+                                                          :summary "Second"}}}]}
+        report (gov/run-governance publish-ir {:tags #{"clojurescript"}})]
+    (is (= [:duplicate-slug :duplicate-slug]
+           (mapv :rule (:errors report))))))
+
 (deftest rejects-missing-metadata-overrides
   (let [publish-ir {:pages [{:slug "broken"
                              :title "Broken"
