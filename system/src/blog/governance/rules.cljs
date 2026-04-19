@@ -50,11 +50,26 @@
                       :message "Draft content must not include published_at"}]))))
        vec))
 
+(defn duplicate-slug-errors [publish-ir]
+  (->> (:pages publish-ir)
+       (group-by :slug)
+       vals
+       (filter #(> (count %) 1))
+       (mapcat (fn [pages]
+                 (for [page pages]
+                   {:level :error
+                    :rule :duplicate-slug
+                    :page (:slug page)
+                    :message (str "Duplicate slug: " (:slug page))})))
+       vec))
+
 (defn duplicate-url-errors [publish-ir]
   (->> (:pages publish-ir)
        (group-by :url)
        vals
-       (filter #(> (count %) 1))
+       (filter (fn [pages]
+                 (and (> (count pages) 1)
+                      (> (count (distinct (map :slug pages))) 1))))
        (mapcat (fn [pages]
                  (for [page pages]
                    {:level :error
@@ -83,6 +98,7 @@
    (concat
     (required-field-errors publish-ir)
     (lifecycle-errors publish-ir)
+    (duplicate-slug-errors publish-ir)
     (duplicate-url-errors publish-ir)
     (metadata-override-errors publish-ir)
     (unknown-tag-errors publish-ir policy))))
