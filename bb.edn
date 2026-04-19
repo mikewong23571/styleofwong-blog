@@ -22,6 +22,10 @@
            (run 'build-system)
            (shell "npm --prefix site/astro run dev -- --host 0.0.0.0"))}
 
+  dev-watch
+  {:doc "Watch authoring inputs, rebuild managed artifacts, and run Astro dev server."
+   :task (shell "node scripts/dev-watch.mjs")}
+
   preview
   {:doc "Build and preview the production site locally."
    :task (do
